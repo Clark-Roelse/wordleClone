@@ -66,8 +66,7 @@
 
     submitButton.addEventListener('click', function (e) {
         let guess = textBox.value;
-        if (guess.length !++5
-    )
+        if (guess.length !== 5)
         {
             return //dont accept words that aren't 5 letters long
         }
@@ -124,9 +123,31 @@
             let letter = snswer[i].toUpperCase();
             answerAsArray.push(letter);
         }
-        //todo find exact matcherfirst
+        //find exact matches
+        for (let i=0; i < guess.length; i++){
+            let letter = guess[i];
+            if (letter === answer[i]){
+                answerAsArray[i] = null; //rmove letter to prevent matching it as yellow to
+                matchArray[i] = 2; //indicate we found a match
+            }
+        }
 
-        //todo find in-word matcher and misses
+        //find in-word matcher and misses
+        for (let i=0; i< guess.length; i++){
+            let letter = guess[i];
+            let index = answerAsArray.indexOf(letter);
+
+            //if letter not in remaining letters, move on to next letter
+            if(index === -1){
+                continue
+            }
+
+            //remove letter to prevent matching in other positions
+            answerAsArray[index] = null;
+            //mark it yellow as it is in the word but not in the correct spot
+            matchArray[i] = 1
+        }
+        return matchArray
     }
 </script>
 </html>
